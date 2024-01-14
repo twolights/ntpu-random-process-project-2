@@ -32,10 +32,8 @@ class TrafficGenerator:
     def generate(self) -> iter:
         num_vehicles = self._generator.poisson(self._lambda)
         for i in range(num_vehicles):
-            start = np.random.choice(self._graph.nodes)
-            end = np.random.choice(self._graph.nodes)
-            while start == end:
-                end = np.random.choice(self._graph.nodes)
+            choices = np.random.choice(self._graph.nodes, 2)
+            start, end = choices[0], choices[1]
             yield Vehicle(start, end)
 
 

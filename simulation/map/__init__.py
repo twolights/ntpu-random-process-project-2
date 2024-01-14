@@ -17,7 +17,7 @@ def create_from_csv(nodes_filename: str, edges_filename: str, arrival_rate: floa
             start = (int(start_x), int(start_y))
             end = (int(end_x), int(end_y))
             _graph.add_edge_by_location(start, end, int(throughput))
-            _graph.add_edge_by_location(end, start, int(throughput))
+            # _graph.add_edge_by_location(end, start, int(throughput))
 
     return Map(_graph, arrival_rate)
 
