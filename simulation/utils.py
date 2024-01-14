@@ -3,7 +3,7 @@ from labellines import labelLines
 
 from simulation.map import Map
 
-MAP_WIDTH, MAP_HEIGHT = 12, 10
+MAP_WIDTH, MAP_HEIGHT = 8, 9
 MAP_SIZE = 16, 10
 
 
