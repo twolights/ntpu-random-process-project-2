@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from labellines import labelLines
 
 from simulation.map import Map
 
@@ -13,7 +14,11 @@ def plot_map(m: Map):
     plt.yticks(range(0, MAP_HEIGHT))
     plt.ylim(0, MAP_HEIGHT)
     for node in m.nodes():
-        plt.plot(node.x, node.y, 'o', color='red')
+        plt.plot(node.x, node.y, 'o', color='red', markersize=30)
     for edge in m.edges():
-        plt.plot([edge.start.x, edge.end.x], [edge.start.y, edge.end.y], '-', color='blue')
+        x = edge.start.x, edge.end.x
+        y = edge.start.y, edge.end.y
+        label = f"{edge.load}/{edge.throughput}"
+        plt.plot(x, y, '-', color='blue', label=label)
+    labelLines(plt.gca().get_lines(), zorder=2.5)
     plt.show()

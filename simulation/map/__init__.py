@@ -4,7 +4,7 @@ from .graph import Graph, Node, Edge
 from .map import Map
 
 
-def create_from_csv(nodes_filename: str, edges_filename: str) -> Map:
+def create_from_csv(nodes_filename: str, edges_filename: str, arrival_rate: float) -> Map:
     _graph = Graph()
     with open(nodes_filename, 'r') as n:
         r = csv.reader(n, delimiter=',')
@@ -19,4 +19,8 @@ def create_from_csv(nodes_filename: str, edges_filename: str) -> Map:
             _graph.add_edge_by_location(start, end, int(throughput))
             _graph.add_edge_by_location(end, start, int(throughput))
 
-    return Map(_graph)
+    return Map(_graph, arrival_rate)
+
+
+def simulate(m: Map, iterations: int):
+    pass
