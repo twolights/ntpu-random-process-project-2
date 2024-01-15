@@ -19,7 +19,7 @@ Design a routing algorithm that is systematically optimal for a specific area.
 
 1. First of all, we use a graph to model the "map" of this certain area, where each vertex represents the intersection of two(or more) roads, and each edge represents the road connecting two vertices. For example:
 
-     ![Map-as-Graph Example](./docs/maps-as-graph.jpg?raw=1)
+     ![Map-as-Graph Example](https://github.com/twolights/ntpu-random-process-project-2/blob/main/docs/maps-as-graph.jpg)
      From the example above, the blue dots are vertices that represents intersections, and red lines are the edges that represent the road connecting vertices.
      (Map content credit: [OpenStreetMap](https://openstreetmap.org/)
 
