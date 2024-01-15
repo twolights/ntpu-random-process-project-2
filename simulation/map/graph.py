@@ -25,6 +25,9 @@ class Graph:
     def add_edge_by_location(self, start: Tuple[int, int], end: Tuple[int, int], throughput: int):
         self.add_edge_by_nodes(self.nodes_map[start], self.nodes_map[end], throughput)
 
+    def total_nodes(self) -> int:
+        return len(self.nodes)
+
 
 class Node:
     x: int
@@ -60,8 +63,20 @@ class Edge:
             return float("inf")
         return 1 / (self.throughput - self.load)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.start} -> {self.end} ({self.throughput})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Edge{str(self)}"
+
+    def __lt__(self, other: Edge) -> bool:
+        return self.weight() < other.weight()
+
+    def __le__(self, other: Edge) -> bool:
+        return self.weight() <= other.weight()
+
+    def __gt__(self, other: Edge) -> bool:
+        return self.weight() > other.weight()
+
+    def __ge__(self, other: Edge) -> bool:
+        return self.weight() >= other.weight()

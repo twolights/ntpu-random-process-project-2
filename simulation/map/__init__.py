@@ -1,7 +1,7 @@
 import csv
 
 from .graph import Graph, Node, Edge
-from .map import Map
+from .map import Map, Vehicle
 
 
 def create_from_csv(nodes_filename: str, edges_filename: str, arrival_rate: float) -> Map:
