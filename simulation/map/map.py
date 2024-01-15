@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import heapq
 
 import numpy as np
@@ -7,16 +7,16 @@ from .graph import Edge, Node, Graph
 
 
 class Vehicle:
-    _start: Node
-    _current: Node
-    _end: Node
-    _next_hop_edge: Optional[Edge]
+    start: Node
+    current: Node
+    end: Node
+    next_hop_edge: Optional[Edge]
 
     def __init__(self, start: Node, end: Node):
-        self._start = start
-        self._current = start
-        self._end = end
-        self._next_hop_edge = None
+        self.start = start
+        self.current = start
+        self.end = end
+        self.next_hop_edge = None
 
 
 class TrafficGenerator:
@@ -26,7 +26,7 @@ class TrafficGenerator:
 
     def __init__(self, graph: Graph, arrival_rate: float):
         self._graph = graph
-        self._generator = np.random.default_rng(77)
+        self._generator = np.random.default_rng()
         self._lambda = arrival_rate
 
     def generate_single(self) -> Vehicle:
@@ -62,7 +62,7 @@ class Map:
     def plan_route_for(self, vehicle: Vehicle):
         # Dijkstra's routing algorithm
         weights = {node: float('inf') for node in self.nodes()}
-        weights[vehicle._start] = 0
+        weights[vehicle.start] = 0
 
         visited = set()
         previous = {node: None for node in self.nodes()}
@@ -82,10 +82,34 @@ class Map:
                     previous[neighbor] = current_node
 
         path = []
-        current_node = vehicle._end
-        while current_node != vehicle._start:
+        current_node = vehicle.end
+        while current_node != vehicle.start:
             path.append(current_node)
             current_node = previous[current_node]
-        path.append(vehicle._start)
+        path.append(vehicle.start)
         path.reverse()
         return path
+
+    def _find_next_hop_edge(self, vehicle: Vehicle) -> Tuple[Node, Edge]
+        path = self.plan_route_for(vehicle)
+        next_hop = path[1]
+        if vehicle.next_hop_edge is not None:
+            vehicle.next_hop_edge.load -= 1
+        for edge in vehicle.current.outgoing_edges:
+            if edge.end == next_hop:
+                edge.load +=1
+                return next_hop, edge
+        raise Exception("Next hop edge not found")
+
+    def _next_iteration(self):
+        for vehicle in self._vehicles:
+            if vehicle.current == vehicle.end:
+                self._vehicles.remove(vehicle)
+                continue
+            next_hop, edge = self._find_next_hop_edge(vehicle)
+        for vehicle in self._traffic_generator.generate():
+            self._vehicles.append(vehicle)
+
+    def simulate(self, iterations: int):
+        for i in range(iterations):
+            self._next_iteration()
